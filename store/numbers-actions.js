@@ -40,7 +40,7 @@ export const deleteNumbers = (numbersId) => {
     return async dispatch => {
         try {
             const dbResult = await removeNumbers(numbersId);
-            console.log(dbResult.rowsAffected);
+            // console.log(dbResult.rowsAffected);
             
             if(dbResult.rowsAffected > 0){
                 dispatch({ type: DELETE_NUMBERS, numId: numbersId.toString()})

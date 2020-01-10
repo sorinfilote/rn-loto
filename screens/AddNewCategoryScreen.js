@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, ScrollView, TextInput, Button, StyleSheet } from 'react-native';
-import Colors from '../constants/Colors';
+import { Colors } from '../constants/styles/Base';
 import { useDispatch } from 'react-redux';
 
 import * as numbersActions from '../store/numbers-actions';

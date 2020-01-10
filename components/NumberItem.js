@@ -1,32 +1,42 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const NumberItem = props => {
+    // console.log(props.children);
+    
     return (
-        <TouchableOpacity 
-        style={{ ...styles.numberItem, ...styles.backgroundRed }}
-        onPress={() => console.log(props)}>
-            <View>
-                <Text style={styles.textItem}>{props.children}</Text>
-            </View>
-        </TouchableOpacity>
+        <View style={styles.container}>
+            <TouchableOpacity 
+            style={{ ...styles.numberItem }}
+            onPress={() => {
+                console.log('');
+            }}>
+                <View>
+                    <Text style={styles.textItem}>{props.children}</Text>
+                </View>
+            </TouchableOpacity>
+        </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        alignItems:'center',
+    },
     numberItem: {
         alignItems: 'center',
         justifyContent: 'center',
         width: 80,
         height: 80,
         borderRadius: 50,
-        margin: 5
+        margin: 5,
+        backgroundColor: 'red'
       },
       backgroundRed: {
           backgroundColor: 'red'
       },
-      backgroundBlue: {
-          backgroundColor: 'blue'
+      backgroundGray: {
+          backgroundColor: 'gray'
       },
       textItem:{
         fontSize: 25,

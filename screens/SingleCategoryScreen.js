@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Button, ScrollView, Platform } from 'react-native';
+import { View, Text, StyleSheet, Button, ScrollView, Platform, SafeAreaView, FlatList, RefreshControl } from 'react-native';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { useDispatch } from 'react-redux';
@@ -19,39 +19,57 @@ const SingleCategoryScreen = props => {
   const amount = props.navigation.getParam('amount');
   
   [numbers, setNumbers] = useState([]);
+  [refreshing , setRefreshing] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    let newNumbers = generateNumbers(min, max, amount);
-    setNumbers(newNumbers);
-  }, [])
-
-  // useEffect(() => {
-  //   props.navigation.setParams({ generateNew: generateNumHandler });
-  // }, [generateNumHandler]);
-  
-  // const generateNumHandler = useCallback(() => {
-  //   let newNumbers = generateNumbers(min, max, amount);
-  //   setNumbers(newNumbers);
-  // }, [amount]);
+    getNumbers();
+  }, []);
 
   useEffect(() => {
     props.navigation.setParams({ deleteNumbers: deleteNumbersHandler });
   }, [deleteNumbersHandler]);
 
+  const getNumbers = () => {
+    let newNumbers = generateNumbers(min, max, amount).map(item => {
+      return { number: item, clicked: false };
+     });
+     
+    setNumbers(newNumbers);
+    setRefreshing(false);
+  }
+  
   const deleteNumbersHandler = () => {
     dispatch(numbersActions.deleteNumbers(id));
     props.navigation.goBack();
   };
+
+  const onRefreshHandler = () => {
+    setRefreshing(true);
+    getNumbers();
+  }
   
   return (
-    <ScrollView style={styles.megaContainer}>
+    <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        {numbers.map(number => <NumberItem key={number}>{number}</NumberItem>)}
+        <FlatList style={styles.list}
+            keyExtractor={item => item.number.toString()}
+            data={numbers}
+            renderItem={itemData => (
+                <NumberItem>
+                    {itemData.item.number}
+                </NumberItem>
+            )}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefreshHandler}
+              />
+            }
+            />
       </View>
-    </ScrollView>
-    
+    </SafeAreaView>
   )
 }
 
@@ -65,7 +83,7 @@ SingleCategoryScreen.navigationOptions = navData => {
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Delete numbers"
-          iconName={Platform.OS === 'android' ? 'md-remove-circle-outline' : 'ios-remove-circle-outline'}
+          iconName={Platform.OS === 'android' ? 'md-trash' : 'ios-trash'}
           onPress={deleteNumbers}
         />
       </HeaderButtons>
@@ -81,8 +99,8 @@ const styles = StyleSheet.create({
       justifyContent: 'space-around',
       margin: 20,
     },
-    megaContainer: {
-      flex: 1
+    list: {
+      alignSelf: 'stretch',
     }
 
   });

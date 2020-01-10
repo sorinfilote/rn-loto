@@ -17,34 +17,38 @@ const CategoriesScreen = props => {
         dispatch(numbersActions.setNumbers());
     }, [dispatch]);
 
+    const swipeLeftHandler = (id) => {
+        dispatch(numbersActions.deleteNumbers(id));
+    }
 
     return (
         <SafeAreaView style={styles.container}>
-            {console.log(numbers)}
+            {/* {console.log(numbers)} */}
                 <FlatList
                 keyExtractor={item => item.id}
                 data={numbers}
                 renderItem={itemData => (
                     <CategoryItem
-                    amount={itemData.item.amount}
-                    max={itemData.item.max}
-                    onSelect={()=> {
-                        props.navigation.navigate('SingleCategory',{
-                            id: itemData.item.id,
-                            min: itemData.item.min,
-                            max: itemData.item.max,
-                            amount: itemData.item.amount
-                        })
-                    }}
+                        amount={itemData.item.amount}
+                        max={itemData.item.max}
+                        onSwipeFromLeft={() => swipeLeftHandler(itemData.item.id)}
+                        onSelect={()=> {
+                            props.navigation.navigate('SingleCategory',{
+                                id: itemData.item.id,
+                                min: itemData.item.min,
+                                max: itemData.item.max,
+                                amount: itemData.item.amount
+                            })
+                        }}
                     />
                 )}
                 />
             
             <Button
-            title="Add new"
-            onPress={() => (
-                props.navigation.navigate('AddCategory')
-            )}
+                title="Add new"
+                onPress={() => (
+                    props.navigation.navigate('AddCategory')
+                )}
             />
           
         </SafeAreaView>
@@ -61,7 +65,7 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'stretch',
       justifyContent: 'center',
-      margin: 10,
+      marginVertical: 10,
     },
     placeholderContainer: {
         flex: 1,

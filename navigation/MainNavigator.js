@@ -2,7 +2,7 @@ import { Platform } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 
-import Colors from '../constants/Colors';
+import { Colors, Fonts } from '../constants/styles/Base';
 
 import AddNewCategory from '../screens/AddNewCategoryScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
@@ -18,7 +18,10 @@ const MainNavigator = createStackNavigator({
           headerStyle: {
               backgroundColor: Platform.OS === 'android' ? Colors.primaryColor : ''
           },
-          headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor
+          headerTintColor: Platform.OS === 'android' ? 'white' : Colors.primaryColor,
+          headerTitleStyle: {
+              fontFamily: Fonts.bold
+          }
       } 
   });
   
