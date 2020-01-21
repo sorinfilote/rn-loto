@@ -87,3 +87,5 @@ const styles = StyleSheet.create({
   });
 
 export default CategoriesScreen;
+
+//state with redux
