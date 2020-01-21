@@ -49,6 +49,14 @@ const SingleCategoryScreen = props => {
     setRefreshing(true);
     getNumbers();
   }
+  const handlerNumberSelect = (nr) => {
+    const numbersCopy = [...numbers];
+    let numberIndex = numbersCopy.findIndex(
+      item => item.number === nr 
+    )
+    numbersCopy[numberIndex].clicked=true;
+    setNumbers(numbersCopy);
+  }
   
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -57,9 +65,10 @@ const SingleCategoryScreen = props => {
             keyExtractor={item => item.number.toString()}
             data={numbers}
             renderItem={itemData => (
-                <NumberItem>
-                    {itemData.item.number}
-                </NumberItem>
+                <NumberItem 
+                  clicked={itemData.item.clicked} 
+                  onSelect={handlerNumberSelect}
+                  singleNumber={itemData.item.number} />
             )}
             refreshControl={
               <RefreshControl
@@ -96,13 +105,12 @@ const styles = StyleSheet.create({
       flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
-      justifyContent: 'space-around',
-      margin: 20,
+      justifyContent: 'center',
+      padding: 20,
     },
     list: {
       alignSelf: 'stretch',
     }
-
   });
 
 export default SingleCategoryScreen;

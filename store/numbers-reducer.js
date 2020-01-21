@@ -24,7 +24,6 @@ export default (state = initialState, action) => {
         case DELETE_NUMBERS:
             const newState = [...state.numbers].filter(num => {
                 return num.id !== action.numId;
-                
             });
             
             return {

@@ -7,12 +7,14 @@ import { Colors, Fonts } from '../constants/styles/Base';
 import AddNewCategory from '../screens/AddNewCategoryScreen';
 import CategoriesScreen from '../screens/CategoriesScreen';
 import SingleCategoryScreen from '../screens/SingleCategoryScreen';
+import MotionCategoryScreen from '../screens/MotionCategoryScreen';
 
 
 const MainNavigator = createStackNavigator({
     Categories: CategoriesScreen,
     SingleCategory: SingleCategoryScreen,
     AddCategory: AddNewCategory,
+    MotionCategory: MotionCategoryScreen,
   }, {
       defaultNavigationOptions: {
           headerStyle: {

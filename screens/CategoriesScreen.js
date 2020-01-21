@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Button, SafeAreaView, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import { Ionicons } from '@expo/vector-icons';
 
 import { NUMBERS } from '../data/dummy-data';
 import * as numbersActions from '../store/numbers-actions';
 
 import CategoryItem from '../components/CategoryItem';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const CategoriesScreen = props => {
@@ -31,7 +33,9 @@ const CategoriesScreen = props => {
                     <CategoryItem
                         amount={itemData.item.amount}
                         max={itemData.item.max}
+                        navigation={props.navigation}
                         onSwipeFromLeft={() => swipeLeftHandler(itemData.item.id)}
+                        // onSwipeFromRight={() => console.log('swipe right')}
                         onSelect={()=> {
                             props.navigation.navigate('SingleCategory',{
                                 id: itemData.item.id,
@@ -43,14 +47,16 @@ const CategoriesScreen = props => {
                     />
                 )}
                 />
+            <View
+                style={styles.absoluteAddBtn}>
+                <TouchableOpacity
+                    onPress={() => (
+                        props.navigation.navigate('AddCategory')
+                    )}>
+                        <Ionicons name="md-add-circle" size={50} color="#444" />
+                </TouchableOpacity>
+            </View>
             
-            <Button
-                title="Add new"
-                onPress={() => (
-                    props.navigation.navigate('AddCategory')
-                )}
-            />
-          
         </SafeAreaView>
     )
 }
@@ -65,13 +71,19 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       alignItems: 'stretch',
       justifyContent: 'center',
-      marginVertical: 10,
     },
     placeholderContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center'
-    }
+    },
+    absoluteAddBtn: {
+        position: 'absolute',
+        width: 50,
+        height: 50,
+        bottom: 30,
+        right: 20,
+    },
   });
 
 export default CategoriesScreen;

@@ -2,17 +2,16 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 const NumberItem = props => {
-    // console.log(props.children);
     
     return (
         <View style={styles.container}>
             <TouchableOpacity 
-            style={{ ...styles.numberItem }}
+            style={{ ...styles.numberItem, backgroundColor:`${props.clicked ? '#dedede' : '#a9a9a9'}` }}
             onPress={() => {
-                console.log('');
+                props.onSelect(props.singleNumber)
             }}>
                 <View>
-                    <Text style={styles.textItem}>{props.children}</Text>
+                    <Text style={styles.textItem}>{props.singleNumber}</Text>
                 </View>
             </TouchableOpacity>
         </View>
@@ -22,6 +21,7 @@ const NumberItem = props => {
 const styles = StyleSheet.create({
     container: {
         alignItems:'center',
+        flex: 1
     },
     numberItem: {
         alignItems: 'center',
@@ -29,14 +29,7 @@ const styles = StyleSheet.create({
         width: 80,
         height: 80,
         borderRadius: 50,
-        margin: 5,
-        backgroundColor: 'red'
-      },
-      backgroundRed: {
-          backgroundColor: 'red'
-      },
-      backgroundGray: {
-          backgroundColor: 'gray'
+        marginVertical: 20,
       },
       textItem:{
         fontSize: 25,

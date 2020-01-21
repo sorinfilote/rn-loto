@@ -24,6 +24,8 @@ const AddNewCategoryScreen = props => {
   }
 
   const saveNumbersHandler = () => {
+    console.log(minValue);
+    
     dispatch(numbersActions.addNumbers(minValue, maxValue, amountValue));
     props.navigation.goBack();
   }
@@ -36,6 +38,7 @@ const AddNewCategoryScreen = props => {
             style={styles.input} 
             onChangeText={minValueChangeHandler} 
             value={minValue}
+            defaultValue="1"
             keyboardType="numeric" 
           />
           <Text style={styles.label}>Max</Text>

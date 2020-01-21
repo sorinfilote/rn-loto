@@ -17,6 +17,7 @@ export const setNumbers = () => {
 }
 
 export const addNumbers = ( min, max, amount ) => {
+    
     return async dispatch => {
         try{
             const dbResult = await insertNumbers(min, max, amount);
