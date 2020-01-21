@@ -1,32 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, Text, ScrollView, TextInput, Button, StyleSheet } from 'react-native';
-import { Colors } from '../constants/styles/Base';
-import { useDispatch } from 'react-redux';
+import { Context } from '../context/NumbersContext';
 
-import * as numbersActions from '../store/numbers-actions';
 
 const AddNewCategoryScreen = props => {
   [minValue, setMinValue] = useState('');
   [maxValue, setMaxValue] = useState('');
   [amountValue, setAmountValue] = useState('');
 
-  const dispatch = useDispatch();
+  const { addNumbers } = useContext(Context);
 
   const minValueChangeHandler = text => {
     //validation 
     setMinValue(text);
   }
+
   const maxValueChangeHandler = text => {
     setMaxValue(text);
   }
+
   const amountValueChangeHandler = text => {
     setAmountValue(text);
   }
 
   const saveNumbersHandler = () => {
-    console.log(minValue);
-    
-    dispatch(numbersActions.addNumbers(minValue, maxValue, amountValue));
+    addNumbers(minValue, maxValue, amountValue);
     props.navigation.goBack();
   }
 

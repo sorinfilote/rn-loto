@@ -1,34 +1,30 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, StyleSheet, Button, ScrollView, Platform, SafeAreaView, FlatList, RefreshControl } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, StyleSheet, Platform, SafeAreaView, FlatList, RefreshControl } from 'react-native';
+import { Context } from '../context/NumbersContext';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
-
-import { useDispatch } from 'react-redux';
-import * as numbersActions from '../store/numbers-actions';
 
 import HeaderButton from '../components/HeaderButton';
 import NumberItem from '../components/NumberItem';
 
 import generateNumbers from '../helpers/generateNumbers';
 
-
-
-const SingleCategoryScreen = props => {
-  const id = props.navigation.getParam('id');
-  const min = props.navigation.getParam('min');
-  const max = props.navigation.getParam('max');
-  const amount = props.navigation.getParam('amount');
+const SingleCategoryScreen = ({ navigation }) => {
+  const id = navigation.getParam('id');
+  const min = navigation.getParam('min');
+  const max = navigation.getParam('max');
+  const amount = navigation.getParam('amount');
   
   [numbers, setNumbers] = useState([]);
   [refreshing , setRefreshing] = useState(false);
 
-  const dispatch = useDispatch();
+  const { deleteNumbers } = useContext(Context);
 
   useEffect(() => {
     getNumbers();
   }, []);
 
   useEffect(() => {
-    props.navigation.setParams({ deleteNumbers: deleteNumbersHandler });
+    navigation.setParams({ deleteNumbers: deleteNumbersHandler });
   }, [deleteNumbersHandler]);
 
   const getNumbers = () => {
@@ -41,8 +37,8 @@ const SingleCategoryScreen = props => {
   }
   
   const deleteNumbersHandler = () => {
-    dispatch(numbersActions.deleteNumbers(id));
-    props.navigation.goBack();
+    deleteNumbers(id);
+    navigation.goBack();
   };
 
   const onRefreshHandler = () => {

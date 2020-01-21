@@ -13,7 +13,6 @@ const renderLeft = () => {
 }
 
 const renderRight = (navigation) => {
-    // console.log(navigation);
     
     return (
         <View style={styles.rightActions}>

@@ -1,34 +1,38 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import { View, Text, StyleSheet, Button, SafeAreaView, FlatList } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
+import { Context } from '../context/NumbersContext';
 
-import { NUMBERS } from '../data/dummy-data';
-import * as numbersActions from '../store/numbers-actions';
+import { Ionicons } from '@expo/vector-icons';
 
 import CategoryItem from '../components/CategoryItem';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const CategoriesScreen = props => {
-    const numbers = useSelector(state => state.numbers.numbers);
-    // console.log(numbers);
-    const dispatch = useDispatch();
+    const { state, setNumbers, deleteNumbers } = useContext(Context);
 
-    useEffect(() => {
-        dispatch(numbersActions.setNumbers());
-    }, [dispatch]);
+    useEffect(()=> {
+        setNumbers();
+
+        const listener = props.navigation.addListener('didFocus', () => {
+            setNumbers();
+        });
+
+        return () => {
+            listener.remove();
+        }
+    }, [])
 
     const swipeLeftHandler = (id) => {
-        dispatch(numbersActions.deleteNumbers(id));
-    }
+        deleteNumbers(id);
+    };
 
     return (
         <SafeAreaView style={styles.container}>
-            {/* {console.log(numbers)} */}
+            {/* {console.log(state)} */}
                 <FlatList
-                keyExtractor={item => item.id}
-                data={numbers}
+                keyExtractor={item => item.id.toString()}
+                data={state}
                 renderItem={itemData => (
                     <CategoryItem
                         amount={itemData.item.amount}
@@ -87,5 +91,3 @@ const styles = StyleSheet.create({
   });
 
 export default CategoriesScreen;
-
-//state with redux

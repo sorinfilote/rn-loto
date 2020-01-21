@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import * as Font from 'expo-font';
 import { AppLoading } from 'expo';
 import { useScreens } from 'react-native-screens';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { Provider } from 'react-redux';
-import ReduxThunk from 'redux-thunk';
-import numberReducer from './store/numbers-reducer';
+// import { createStore, combineReducers, applyMiddleware } from 'redux';
+// import { Provider } from 'react-redux';
+import { Provider } from './context/NumbersContext'
+// import ReduxThunk from 'redux-thunk';
+// import numberReducer from './store/numbers-reducer';
 import { init } from './helpers/db';
 
 import MainNavigator from './navigation/MainNavigator';
@@ -19,11 +20,11 @@ init()
     console.log(err);
   });
   
-const rootReducer = combineReducers({
-  numbers : numberReducer
-})
+// const rootReducer = combineReducers({
+//   numbers : numberReducer
+// })
 
-const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
+// const store = createStore(rootReducer, applyMiddleware(ReduxThunk));
 
 useScreens();
 
@@ -46,5 +47,5 @@ export default function App() {
     );
   }
 
-  return <Provider store={store}><MainNavigator /></Provider>;
+  return <Provider><MainNavigator /></Provider>;
 }
