@@ -4,9 +4,9 @@ import { Context } from '../context/NumbersContext';
 
 
 const AddNewCategoryScreen = props => {
-  [minValue, setMinValue] = useState('');
-  [maxValue, setMaxValue] = useState('');
-  [amountValue, setAmountValue] = useState('');
+  const [minValue, setMinValue] = useState('');
+  const [maxValue, setMaxValue] = useState('');
+  const [amountValue, setAmountValue] = useState('');
 
   const { addNumbers } = useContext(Context);
 

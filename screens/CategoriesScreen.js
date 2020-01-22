@@ -7,6 +7,8 @@ import { Ionicons } from '@expo/vector-icons';
 import CategoryItem from '../components/CategoryItem';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+import CustomModal from '../components/CustomModal';
+
 
 const CategoriesScreen = props => {
     const { state, setNumbers, deleteNumbers } = useContext(Context);
@@ -29,6 +31,7 @@ const CategoriesScreen = props => {
 
     return (
         <SafeAreaView style={styles.container}>
+            <CustomModal/>
             {/* {console.log(state)} */}
                 <FlatList
                 keyExtractor={item => item.id.toString()}
@@ -66,7 +69,7 @@ const CategoriesScreen = props => {
 }
 
 CategoriesScreen.navigationOptions = {
-    headerTitle: 'All Categories'
+    headerTitle: 'All Categories- Context'
 }
 
 const styles = StyleSheet.create({

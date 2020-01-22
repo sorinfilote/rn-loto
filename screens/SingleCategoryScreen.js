@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, StyleSheet, Platform, SafeAreaView, FlatList, RefreshControl } from 'react-native';
+import { View, StyleSheet,Text, Platform, SafeAreaView, FlatList, RefreshControl, Animated } from 'react-native';
 import { Context } from '../context/NumbersContext';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
+
+import { usePulse, useRotate } from '../hooks/useAnimation';
 
 import HeaderButton from '../components/HeaderButton';
 import NumberItem from '../components/NumberItem';
@@ -14,10 +16,18 @@ const SingleCategoryScreen = ({ navigation }) => {
   const max = navigation.getParam('max');
   const amount = navigation.getParam('amount');
   
-  [numbers, setNumbers] = useState([]);
-  [refreshing , setRefreshing] = useState(false);
-
+  const [numbers, setNumbers] = useState([]);
+  const [refreshing , setRefreshing] = useState(false);
+  
   const { deleteNumbers } = useContext(Context);
+
+  const scale = usePulse();
+  const rotate = useRotate();
+
+  // const customRotate = rotate.interpolate({
+  //   inputRange: [0, 1],
+  //   outputRange: ['0deg', '3600deg']
+  // });
 
   useEffect(() => {
     getNumbers();
@@ -45,12 +55,13 @@ const SingleCategoryScreen = ({ navigation }) => {
     setRefreshing(true);
     getNumbers();
   }
+
   const handlerNumberSelect = (nr) => {
     const numbersCopy = [...numbers];
     let numberIndex = numbersCopy.findIndex(
       item => item.number === nr 
     )
-    numbersCopy[numberIndex].clicked=true;
+    numbersCopy[numberIndex].clicked=!numbersCopy[numberIndex].clicked;
     setNumbers(numbersCopy);
   }
   
@@ -61,10 +72,18 @@ const SingleCategoryScreen = ({ navigation }) => {
             keyExtractor={item => item.number.toString()}
             data={numbers}
             renderItem={itemData => (
+              <Animated.View 
+              style={[
+                {
+                  // transform: [{ rotate: customRotate }],
+                  // transform: [{ scale }],
+                },
+              ]}>
                 <NumberItem 
                   clicked={itemData.item.clicked} 
                   onSelect={handlerNumberSelect}
                   singleNumber={itemData.item.number} />
+                </Animated.View>
             )}
             refreshControl={
               <RefreshControl
